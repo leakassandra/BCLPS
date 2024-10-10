@@ -5,8 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>URL Submission</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        /* Add some basic styling for the navigation links */
+        .nav-links {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-right: 20px;
+            font-size: 18px;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
+    <!-- Navigation Links -->
+    <div class="nav-links">
+        <a href="/">SUBMIT URL</a>
+        <a href="/feed">ATOM Feed</a>
+    </div>
     <div class="form-container">
         <form action="/submit" method="POST">
             <label for="username">Your Name:</label>
