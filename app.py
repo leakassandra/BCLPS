@@ -2,14 +2,15 @@ from flask import Flask, render_template, request, redirect, url_for, Response
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
+# set up flask app
 app = Flask(__name__)
 
-# Set up the database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///submissions.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
+# set up the database (SQLite)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///submissions.db' # file that will store the submissions
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # disabled for performance
+db = SQLAlchemy(app) # initialize
 
-# Define the database model
+# define database model (structure of the database where user-submitted data will be stored)
 class Submission(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), nullable=False)
@@ -17,7 +18,7 @@ class Submission(db.Model):
     description = db.Column(db.Text, nullable=False)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
-# Create the database
+# create database
 with app.app_context():
     db.create_all()
 
