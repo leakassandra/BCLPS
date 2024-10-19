@@ -1,3 +1,4 @@
+import uuid
 from flask import Flask, render_template, request, redirect, url_for, Response
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
@@ -41,22 +42,24 @@ def submit():
 
 @app.route('/feed')
 def atom_feed():
-    # Retrieve all submissions from the database
+    # get all submissions from the database
     submissions = Submission.query.order_by(Submission.timestamp.desc()).all()
 
-    # Create the ATOM feed structure
+    # create ATOM feed structure
     feed = f"""<?xml version="1.0" encoding="utf-8"?>
     <feed xmlns="http://www.w3.org/2005/Atom">
         <title>Links Feed</title>
-        <link href="/feed" />
+        <link href="/feed"/>
         <updated>{datetime.utcnow().isoformat()}Z</updated>
-        <author><name>URL Submission App</name></author>"""
-
+        <author><name>URL Submission App</name></author>
+        <id>urn:uuid:{uuid.uuid4()}</id>"""
+    
     for submission in submissions:
         feed += f"""
         <entry>
             <title>{submission.username}</title>
             <link href="{submission.link}" />
+            <id>urn:uuid:{uuid.uuid4()}</id>
             <updated>{submission.timestamp.isoformat()}Z</updated>
             <summary>{submission.description}</summary>
         </entry>"""
